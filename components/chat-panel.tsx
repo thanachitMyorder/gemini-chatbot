@@ -39,8 +39,8 @@ export function ChatPanel({
   const exampleMessages = [
     {
       heading: 'สร้างกราฟ',
-      subheading: 'รอทำ UI ต้องสร้างกราฟ',
-      message: `สร้างกราฟ`
+      subheading: 'Create a graph.',
+      message: `Create a graph.`
     },
     {
       heading: 'What is the graph?',

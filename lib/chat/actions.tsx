@@ -22,6 +22,7 @@ import { auth } from '@/auth'
 import { FlightStatus } from '@/components/flights/flight-status'
 import { SelectSeats } from '@/components/flights/select-seats'
 import { ListFlights } from '@/components/flights/list-flights'
+import { ListOptions } from '@/components/graph/list-options'
 import { BoardingPass } from '@/components/flights/boarding-pass'
 import { PurchaseTickets } from '@/components/flights/purchase-ticket'
 import { CheckIcon, SpinnerIcon } from '@/components/ui/icons'
@@ -92,7 +93,7 @@ async function describeImage(imageBase64: string) {
 
         const result = await model.generateContent([prompt, image])
         text = result.response.text()
-        console.log(text)
+        console.log("result model", text)
       }
 
       spinnerStream.done(null)
@@ -165,6 +166,10 @@ async function submitUserMessage(content: string) {
         model: google('models/gemini-1.5-flash'),
         temperature: 0,
         tools: {
+          showOptionGraph: {
+            description:
+              "Create a graph."
+          },
           showFlights: {
             description:
               "List available flights in the UI. List 3 that match user's query.",
@@ -317,6 +322,32 @@ async function submitUserMessage(content: string) {
                 }
               ]
             })
+          } else if (toolName === 'showOptionGraph') {
+            aiState.done({
+              ...aiState.get(),
+              interactions: [],
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: 'assistant',
+                  content:
+                    "Here's a option of graph for you. Choose one and we can proceed to insert data.",
+                  display: {
+                    name: 'showOptionGraph',
+                    props: {
+                      summary: args
+                    }
+                  }
+                }
+              ]
+            })
+
+            uiStream.update(
+              <BotCard>
+                <ListOptions summary={args} />
+              </BotCard>
+            )
           } else if (toolName === 'showFlights') {
             aiState.done({
               ...aiState.get(),
@@ -658,7 +689,6 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           message.display?.name === 'showFlights' ? (
             <BotCard>
               <ListFlights summary={message.display.props.summary} />
-              {aiState.messages}
             </BotCard>
           ) : message.display?.name === 'showSeatPicker' ? (
             <BotCard>
