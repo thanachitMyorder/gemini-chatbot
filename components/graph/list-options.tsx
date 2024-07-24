@@ -5,13 +5,10 @@
 
 import { useActions, useUIState } from 'ai/rsc'
 
-// interface Flight {
-//   id: number
-//   airlines: string
-//   departureTime: string
-//   arrivalTime: string
-//   price: number
-// }
+interface Chart {
+  id: number
+  type: string
+}
 
 interface ListFlightsProps {
   summary: {
@@ -37,29 +34,16 @@ export const ListOptions = ({
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState()
 
-  // const flights = [
-  //   {
-  //     id: 1,
-  //     airlines: 'United Airlines',
-  //     departureTime: '8:30 PM',
-  //     arrivalTime: '4:20 PM+1',
-  //     price: 531
-  //   },
-  //   {
-  //     id: 2,
-  //     airlines: 'United Airlines',
-  //     departureTime: '2:40 PM',
-  //     arrivalTime: '10:25 AM+1',
-  //     price: 564
-  //   },
-  //   {
-  //     id: 3,
-  //     airlines: 'United Airlines',
-  //     departureTime: '3:00 PM',
-  //     arrivalTime: '10:50 AM+1',
-  //     price: 611
-  //   }
-  // ]
+  const charts = [
+    {
+      id: 1,
+      type: 'Bar chart'
+    },
+    {
+      id: 2,
+      type: 'Line chart'
+    }
+  ]
 
   return (
     <div className="grid gap-2 rounded-2xl border border-zinc-200 bg-white p-2 sm:p-4">
@@ -78,59 +62,49 @@ export const ListOptions = ({
         </div>
       </div>
       <div className="grid gap-3">
-      <div
-              key="benz01"
-              className="flex cursor-pointer flex-row items-start sm:items-center gap-4 rounded-xl p-2 hover:bg-zinc-50"
-              onClick={async () => {
-                const response = await submitUserMessage(
-                  `The user has selected Bar chart option. Now proceeding to insert data.`
-                )
-                setMessages((currentMessages: any[]) => [
-                  ...currentMessages,
-                  response
-                ])
-              }}
-            >
-              <div className="w-10 sm:w-12 shrink-0 aspect-square rounded-lg bg-zinc-50 overflow-hidden">
-                <img
-                  src="https://www.gstatic.com/flights/airline_logos/70px/UA.png"
-                  className="object-cover aspect-square"
-                  alt="airline logo"
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-4 items-start sm:gap-6 flex-1">
-                <div className="col-span-2">
-                  <div className="font-medium">
-                    benz01
-                  </div>
-                  <div className="text-sm text-zinc-600"> benz01</div>
-                </div>
-                <div>
-                  <div className="font-medium">
-                    benz01
-                  </div>
-                  <div className="text-sm text-zinc-600">
-                    benz01
-                  </div>
-                </div>
-                <div>
-                  <div className="sm:text-right font-medium font-mono">
-                    benz01
-                  </div>
-                  <div className="sm:text-right text-xs text-zinc-600">
-                    benz01
-                  </div>
-                </div>
-              </div>
+        {/* <div
+          key="benz01"
+          className="flex cursor-pointer flex-row items-start sm:items-center gap-4 rounded-xl p-2 hover:bg-zinc-50"
+          onClick={async () => {
+            const response = await submitUserMessage(
+              `The user has selected Bar chart option. Now proceeding to insert data.`
+            )
+            setMessages((currentMessages: any[]) => [
+              ...currentMessages,
+              response
+            ])
+          }}
+        >
+          <div className="w-10 sm:w-12 shrink-0 aspect-square rounded-lg bg-zinc-50 overflow-hidden">
+            <img
+              src="https://www.gstatic.com/flights/airline_logos/70px/UA.png"
+              className="object-cover aspect-square"
+              alt="airline logo"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-4 items-start sm:gap-6 flex-1">
+            <div className="col-span-2">
+              <div className="font-medium">benz01</div>
+              <div className="text-sm text-zinc-600"> benz01</div>
             </div>
-        {/* {flights &&
-          flights.map(flight => (
+            <div>
+              <div className="font-medium">benz01</div>
+              <div className="text-sm text-zinc-600">benz01</div>
+            </div>
+            <div>
+              <div className="sm:text-right font-medium font-mono">benz01</div>
+              <div className="sm:text-right text-xs text-zinc-600">benz01</div>
+            </div>
+          </div>
+        </div> */}
+        {charts &&
+          charts.map(chart => (
             <div
-              key={flight.id}
+              key={chart.id}
               className="flex cursor-pointer flex-row items-start sm:items-center gap-4 rounded-xl p-2 hover:bg-zinc-50"
               onClick={async () => {
                 const response = await submitUserMessage(
-                  `The user has selected flight ${flight.airlines}, departing at ${flight.departureTime} and arriving at ${flight.arrivalTime} for $${flight.price}. Now proceeding to select seats.`
+                  `The user has selected ${chart?.type} option. Now proceeding to insert data.`
                 )
                 setMessages((currentMessages: any[]) => [
                   ...currentMessages,
@@ -147,22 +121,16 @@ export const ListOptions = ({
               </div>
               <div className="grid gap-4 sm:grid-cols-4 items-start sm:gap-6 flex-1">
                 <div className="col-span-2">
-                  <div className="font-medium">
-                    {flight.departureTime} - {flight.arrivalTime}
-                  </div>
-                  <div className="text-sm text-zinc-600">{flight.airlines}</div>
+                  <div className="font-medium">{chart?.type}</div>
+                  <div className="text-sm text-zinc-600">{chart?.type}</div>
                 </div>
                 <div>
-                  <div className="font-medium">
-                    {flight.id === 2 ? '10hr 50min' : '10hr 45min'}
-                  </div>
-                  <div className="text-sm text-zinc-600">
-                    {departingAirport} - {arrivalAirport}
-                  </div>
+                  <div className="font-medium">{chart?.type}</div>
+                  <div className="text-sm text-zinc-600">{chart?.type}</div>
                 </div>
                 <div>
                   <div className="sm:text-right font-medium font-mono">
-                    ${flight.price}
+                    {chart?.type}
                   </div>
                   <div className="sm:text-right text-xs text-zinc-600">
                     One Way
@@ -170,7 +138,7 @@ export const ListOptions = ({
                 </div>
               </div>
             </div>
-          ))} */}
+          ))}
       </div>
     </div>
   )
