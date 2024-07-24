@@ -38,14 +38,14 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'List flights flying from',
-      subheading: 'San Francisco to Rome today',
-      message: `List flights flying from San Francisco to Rome today`
+      heading: 'สร้างกราฟ',
+      subheading: 'รอทำ UI ต้องสร้างกราฟ',
+      message: `สร้างกราฟ`
     },
     {
-      heading: 'What is the status',
-      subheading: 'of flight BA142?',
-      message: 'What is the status of flight BA142?'
+      heading: 'What is the graph?',
+      subheading: 'รอทำ UI ต้องสร้างกราฟ',
+      message: 'What is the graph?'
     }
   ]
 
