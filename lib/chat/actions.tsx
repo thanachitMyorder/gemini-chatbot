@@ -658,6 +658,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           message.display?.name === 'showFlights' ? (
             <BotCard>
               <ListFlights summary={message.display.props.summary} />
+              {aiState.messages}
             </BotCard>
           ) : message.display?.name === 'showSeatPicker' ? (
             <BotCard>
